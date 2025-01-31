@@ -2,11 +2,13 @@ from pinecone import Pinecone, ServerlessSpec
 import time
 import os
 
-global pc_database
+pc_database = None
 
 
 def getDatabase():
     pine_cone_key = os.getenv("PINECONE_API_KEY")
+    
+    global pc_database 
     
     if pc_database is None:
         pc_database = Pinecone(api_key = pine_cone_key)
@@ -15,10 +17,10 @@ def getDatabase():
 
 def getDatabaseIndex(index_name):
     
-    getDatabase()
+    local_db = getDatabase()
     
-    if not pc_database.has_index(index_name):
-        pc_database.create_index(
+    if not local_db.has_index(index_name):
+        local_db.create_index(
             name=index_name,
             dimension=384, # Replace with your model dimensions
             metric="cosine", # Replace with your model metric
@@ -28,10 +30,10 @@ def getDatabaseIndex(index_name):
             ) 
         )
     
-    while not pc_database.describe_index(index_name).status['ready']:
+    while not local_db.describe_index(index_name).status['ready']:
         time.sleep(1)
 
-    index = pc_database.Index(index_name)
+    index = local_db.Index(index_name)
     return index
 
 

@@ -7,6 +7,7 @@ import uuid
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from summary import generate_combined_summary_and_key_points
 
 sentence_model = None
 inputDir = None
@@ -68,8 +69,11 @@ def read_files(inputDirectory, outputDirectory, topic=None):
                     f.close()
                     os.rename(file_path, os.path.join(outputDir, file))
                     
-                    (summary,keypoints) = kade_summary_function(text)
+                    (topic_gen, summary, keypoints) = generate_combined_summary_and_key_points(text)
                     
+                    if (topic_gen is not None): 
+                        topic = topic_gen
+                        
                     embeded_lst.append(
                         {
                             "id" : str(uuid.uuid4().hex),

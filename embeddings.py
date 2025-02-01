@@ -39,7 +39,6 @@ def getOutputDir(outputDirectory):
         os.makedirs(outputDir)
     return outputDir
     
-
 def read_files(inputDirectory, outputDirectory, topic=None):
     
     inputDir = Path(inputDirectory)
@@ -62,11 +61,15 @@ def read_files(inputDirectory, outputDirectory, topic=None):
     for file in files:
         if file.endswith(".txt"):
             file_path = os.path.join(inputDir, file)
+            
             if os.path.isfile(file_path):
+                
                 with open(file_path, 'r') as f:
+            
                     text = f.read()
                     embedding = get_sentence_embedding(text)
                     f.close()
+            
                     os.rename(file_path, os.path.join(outputDir, file))
                     
                     (topic_gen, summary, keypoints) = generate_combined_summary_and_key_points(text)
@@ -74,6 +77,7 @@ def read_files(inputDirectory, outputDirectory, topic=None):
                     if (topic_gen is not None): 
                         topic = topic_gen
                         
+                    
                     embeded_lst.append(
                         {
                             "id" : str(uuid.uuid4().hex),
@@ -88,10 +92,6 @@ def read_files(inputDirectory, outputDirectory, topic=None):
                     )
 
     return embeded_lst
-
-def kade_summary_function(text):
-    return ('summary',['keyword1', 'keyword2', 'keyword3'])
-
 
 def save_to_database(embeded_lst, index_name = 'test_videos' ,namespace="sample-namespace"):
     
@@ -157,6 +157,7 @@ def captureData():
     
     save_to_database(embeded_lst, index_name =db_index_name, namespace=db_namespace_name)
     
+    return embeded_lst
 
 def queryRepository():
     

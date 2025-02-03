@@ -114,8 +114,8 @@ def configureApp():
     
     currPath = Path.cwd()
     
-    inputDir = os.path.join( currPath, 'inputDir')
-    outputDir = os.path.join(currPath, 'outputDir')
+    inputDir = os.path.join( currPath, 'output')
+    outputDir = os.path.join(currPath, 'processed')
     
     topic = 'test'
     db_index_name = 'samplevideos'

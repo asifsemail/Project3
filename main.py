@@ -1,5 +1,6 @@
 from fetch_youtube_videos import fetch_videos
 from transcribe_videos import transcribe
+from embedding import mainApp
 
 def main():
     topic = input("Enter topic to analyze: ")
@@ -18,3 +19,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    mainApp()

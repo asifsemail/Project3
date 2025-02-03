@@ -172,10 +172,12 @@ def mainApp():
     
     configureApp()
     
-    captureData()
+    embeded_lst = captureData()
     
     queryRepository()
     
+    return embeded_lst
+    
 
-if __name__ == "__main__":
-    mainApp()
+# if __name__ == "__main__":
+#     mainApp()

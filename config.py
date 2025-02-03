@@ -17,7 +17,7 @@ from dotenv import load_dotenv, find_dotenv
 import os
 
 # Load environment variables from .env file
-load_dotenv(find_dotenv('keys1.env'))
+load_dotenv(find_dotenv('keys.env'))
 
 # YouTube API Configuration
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")

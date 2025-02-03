@@ -1,6 +1,6 @@
 from fetch_youtube_videos import fetch_videos
-from transcribe_videos import transcribe
-from embedding import mainApp
+from transcribe_videos import transcribe_and_save
+from embeddings import mainApp
 
 def main():
     topic = input("Enter topic to analyze: ")
@@ -15,7 +15,7 @@ def main():
         print(f"\nVideo {idx}: {video['title']}")
         print(f"URL: {video['url']}")
         print("Transcribing...")
-        print(transcribe(video['url']))
+        print(transcribe_and_save(video['url']))
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@ import gradio as gr
 from fetch_youtube_videos import fetch_videos
 from transcribe_videos import transcribe_and_save
 from embeddings import mainApp
+from YouTubeAgent import generateidea
 
 def analyze(topic):
     """
@@ -41,7 +42,9 @@ def analyze(topic):
                     'Transcript File': transcription_result["file_path"]
                 })
                 
-        mainApp()
+        summary_video = mainApp()
+        
+        generateidea(summary_video)
         
         return results
 

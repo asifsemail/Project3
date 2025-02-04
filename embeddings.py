@@ -57,6 +57,8 @@ def read_files(inputDirectory, outputDirectory, topic=None):
         return embeded_lst
     
     outputDir = getOutputDir(outputDirectory)
+    
+    textfile = "" 
 
     for file in files:
         if file.endswith(".txt"):
@@ -92,8 +94,17 @@ def read_files(inputDirectory, outputDirectory, topic=None):
                             "values": embedding.tolist()
                         }
                     )
+                    
+                    textfile += "\n" + text 
 
-    return embeded_lst
+    (topic_gen1, summary1, keypoints1) = generate_combined_summary_and_key_points(textfile)
+    
+    input_data = {
+        'summary' : summary1,
+        'keypoints' : keypoints1
+    }
+    
+    return input_data, embeded_lst
 
 def save_to_database(embeded_lst, index_name = 'test_videos' ,namespace="sample-namespace"):
     
@@ -147,11 +158,11 @@ def captureData():
     
     global inputDir, outputDir, topic, db_index_name, db_namespace_name
 
-    embeded_lst = embed_text_files(inputDir, outputDir, topic)
+    input_data, embeded_lst = embed_text_files(inputDir, outputDir, topic)
     
     save_to_database(embeded_lst, index_name =db_index_name, namespace=db_namespace_name)
     
-    return embeded_lst
+    return input_data
 
 def queryRepository(search_text):
     
@@ -165,8 +176,8 @@ def queryRepository(search_text):
 def mainApp():
     
     configureApp()
-    embeded_lst = captureData()
-    return embeded_lst
+    input_data = captureData()
+    return input_data
     
 
 if __name__ == "__main__":

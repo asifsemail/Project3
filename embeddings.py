@@ -69,14 +69,16 @@ def read_files(inputDirectory, outputDirectory, topic=None):
                     text = f.read()
                     embedding = get_sentence_embedding(text)
                     f.close()
-            
-                    os.rename(file_path, os.path.join(outputDir, file))
-                    
+
+                    if not os.path.isfile(os.path.join(outputDir, file)):
+                        os.rename(file_path, os.path.join(outputDir, file))
+                    else:
+                        os.remove(file_path)
+                        
                     (topic_gen, summary, keypoints) = generate_combined_summary_and_key_points(text)
                     
                     if (topic_gen is not None): 
                         topic = topic_gen
-                        
                     
                     embeded_lst.append(
                         {
@@ -129,11 +131,6 @@ def configureApp():
 
 def fetch_from_database(search_text, topics =[] ,top_k = 5, index_name = 'test-videos' ,namespace="sample-namespace"):
     
-    global topic
-    
-    if len(topics) == 0:
-        topics = [topic]
-        
     db_index = getDatabaseIndex(index_name)
     
     results = db_index.query(namespace=namespace,
@@ -141,10 +138,7 @@ def fetch_from_database(search_text, topics =[] ,top_k = 5, index_name = 'test-v
         top_k=top_k,
         include_values=True,
         include_metadata=True,    
-        filter={
-            "topic": {"$in": topics},
-            #"keypoints":{"$in": ['keyword3']}
-        }            
+          
     )
     
     return results
@@ -159,11 +153,11 @@ def captureData():
     
     return embeded_lst
 
-def queryRepository():
+def queryRepository(search_text):
     
     global db_index_name, db_namespace_name
     
-    result = fetch_from_database('Neural network is branch of AI.',index_name = db_index_name, namespace=db_namespace_name)
+    result = fetch_from_database(search_text, index_name = db_index_name, namespace=db_namespace_name)
 
     print(f'Results: {result}')
     
@@ -171,13 +165,9 @@ def queryRepository():
 def mainApp():
     
     configureApp()
-    
     embeded_lst = captureData()
-    
-    queryRepository()
-    
     return embeded_lst
     
 
-# if __name__ == "__main__":
-#     mainApp()
+if __name__ == "__main__":
+    mainApp()

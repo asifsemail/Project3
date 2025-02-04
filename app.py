@@ -1,6 +1,7 @@
 import gradio as gr
 from fetch_youtube_videos import fetch_videos
 from transcribe_videos import transcribe_and_save
+from embeddings import mainApp
 
 def analyze(topic):
     """
@@ -39,6 +40,8 @@ def analyze(topic):
                     'Transcript Preview': transcription_result["transcription"][:500] + "...",
                     'Transcript File': transcription_result["file_path"]
                 })
+                
+        mainApp()
         
         return results
 

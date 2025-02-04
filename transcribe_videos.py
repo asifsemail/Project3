@@ -57,7 +57,7 @@ def transcribe_and_save(url, output_dir="output"):
             audio_url = info['url']
         
         # Transcribe audio
-        result = MODEL.transcribe(audio_url)
+        result = MODEL.transcribe(audio_url, fp16=False)
         transcription = result['text']
 
         # Create output directory if it doesn't exist

@@ -23,6 +23,18 @@ This ReadMe file documents the current phase of the project and will be updated 
 
 **Current Features (Kade's Code):**
 
+	1.	Transcription Retrieval:
+    	•	Reads all .txt files from the Output directory containing transcriptions.
+		•	Stores transcription content in a dictionary for processing.
+    
+	2.	Gemini Processing:
+    	•	Loads the Gemini API key from an environment file.
+		•	Uses the Gemini model and specified prompt to generate summaries and key insights from the transcriptions.
+
+	3.	Summary & Key Points output:
+    	•	Extracts a topic title, summary, and key points from the transcriptions.
+		•	Formats the output for easy readability.details (title, channel, views) and a preview of the transcription.
+
 **Current Features (Amit's Code):**
 
 **Current Features (Simran's Code):**

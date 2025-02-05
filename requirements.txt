@@ -1,0 +1,29 @@
+# Core Dependencies
+google-api-python-client==2.104.0  # For YouTube API interactions
+python-dotenv==1.0.0               # For environment variables
+gradio==3.50.2                     # For web interface
+yt-dlp==2023.11.16                # For YouTube audio downloading
+openai-whisper==20231106          # For audio transcription
+torch==2.0.1                      # Required for Whisper
+langchain-google-genai==0.0.3     # For Gemini AI integration
+google-generativeai==0.3.1        # For Gemini API
+langchain-community==0.0.10       # For LangChain tools
+
+# Optional Dependencies
+spacy>=3.0.0                      # For NLP tasks (if needed)
+nltk>=3.8.1                       # For text processing (if needed)
+
+# System Requirements (not pip installable)
+# FFmpeg must be installed separately:
+# Windows: choco install ffmpeg
+# Mac: brew install ffmpeg
+# Linux: sudo apt-get install ffmpeg
+
+# Required API Keys (in keys1.env):
+# YOUTUBE_API_KEY     - Required for fetching YouTube videos
+# GEMINI_API_KEY      - Required for content generation and summarization
+# TAVILY_API_KEY      - Optional for search functionality
+
+# Project Structure Requirements:
+# - output/ directory for saving transcriptions
+# - keys1.env file with API keys

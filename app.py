@@ -81,6 +81,7 @@ from fetch_youtube_videos import fetch_videos
 from transcribe_videos import transcribe_and_save
 from summary import generate_combined_summary_and_key_points
 from YouTubeAgent import generateidea
+from embeddings import mainApp
 
 def format_results(results):
     """Format results for better display"""
@@ -136,6 +137,9 @@ def analyze(topic):
         
         # Generate summary and content ideas if transcriptions exist
         if transcriptions:
+            
+            mainApp(topic)
+            
             topic_title, summary, key_points = generate_combined_summary_and_key_points(transcriptions)
             
             # Generate content idea

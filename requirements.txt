@@ -8,6 +8,8 @@ torch==2.0.1                      # Required for Whisper
 langchain-google-genai==0.0.3     # For Gemini AI integration
 google-generativeai==0.3.1        # For Gemini API
 langchain-community==0.0.10       # For LangChain tools
+sentence-transformers
+pinecone
 
 # Optional Dependencies
 spacy>=3.0.0                      # For NLP tasks (if needed)

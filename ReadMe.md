@@ -1,7 +1,7 @@
 # VidInsight AI: AI-Powered YouTube Content Analyzer
 
 ## Overview
-VidInsight AI is an AI-powered application designed to analyze YouTube videos for a given subject, extract insights, provide transcriptions, topic, summary, key-points and a new content idea! 
+VidInsight AI is an AI-powered application designed to analyze YouTube videos for a given subject, extract insights, provide transcriptions, topic, summary, key-points and a new content idea!\
 The application is built to assist:
 - content creators,
 - educators & researchers, and
@@ -10,24 +10,74 @@ The application is built to assist:
 ---
 This ReadMe file documents the current phase of the project and will be updated as new features are implemented.
 
-**Current Features (Asif's Code):**
+**Current Features:**
 
-	1.	YouTube Video Retrieval:
-    	•	Fetches up to 10 YouTube videos based on a user-provided topic.
-    	•	Filters videos based on criteria such as keywords, view counts, and trusted channels.
-    	•	Selects the top 3 videos based on relevance and view counts.
+    1️⃣ Gradio User Interface
+
+    ✔ Input:
+    	•	Users enter a topic in a Gradio app to initiate the analysis.
+    	•	The system processes the input and retrieves relevant videos.
     
-	2.	Transcription:
-    	•	Transcribes audio from the top 3 selected videos using OpenAI’s Whisper model.
-    	•	Saves the complete transcripts in an `output` folder for further processing.
-    
-	3.	User Interface:
-    	•	Input
-        	•	Provides a user-friendly interface built with Gradio.
-    	•	Output
-        	•	Displays video details (title, channel, views) and a preview of the transcription.
-        	•	Analysis (Topic, Summary & Key Points)
-        	•	Content Idea with comprehensive details
+    ✔ Output:
+    	•	Displays video details (title, channel, views, publication date, etc.).
+    	•	Provides a summary & key points of the selected videos.
+    	•	Generates a brand-new content idea based on AI-driven insights.
+
+
+    2️⃣ Configurable Filtering System
+
+    ✔ A config file (config.py) allows fine-tuning of video selection:
+    	•	Filters based on trusted channels, video duration, view counts, and teaching-related keywords.
+    	•	Prioritizes high-quality educational content over noisy or irrelevant videos.
+    	•	Ensures the retrieved videos are relevant to the selected topic.
+
+    3️⃣ YouTube Video Retrieval
+
+    ✔ Fetches up to 10 YouTube videos related to the user’s topic.
+    ✔ Filters videos based on:
+    	•	Keywords (e.g., tutorial, lesson, introduction, course).
+    	•	View counts (ensures a minimum number of views for relevance).
+    	•	Trusted channels (e.g., Khan Academy, DeepMind, OpenAI, Stanford).
+    ✔ Selects the top 3 most relevant videos for further processing.    
+
+    4️⃣ AI-Powered Transcription (Whisper Model)
+
+    ✔ Downloads and extracts audio from the selected YouTube videos using yt-dlp.
+    ✔ Transcribes the videos using OpenAI’s Whisper model.
+    ✔ Saves complete transcriptions in the output/ folder for further processing.
+
+    5️⃣ Vectorization & Storage in a Vector Database
+
+    ✔ Embeds transcriptions using Hugging Face sentence-transformers.
+    ✔ Stores embeddings in a Vector Database - Pinecone (others can be used e.g. Weaviate, or NeonDB).
+    ✔ Enables efficient querying of video content for rapid analysis and comparisons.
+
+    6️⃣ AI-Driven Summarization & Key Insights Extraction
+
+    ✔ Retrieves stored transcriptions for multi-video summarization.
+    ✔ AI-powered NLP analysis extracts:
+    	•	Key discussion points from each video.
+    	•	Common themes & unique insights from multiple videos.
+    	•	Concise summaries for quick understanding.
+
+    7️⃣ AI Content Ideation & Generation
+
+    ✔ Uses Gemini AI + TAVILY API to generate a brand-new content idea based on extracted insights.
+    ✔ Provides a detailed content creation plan, including:
+    	•	Topic & Hook (engaging introduction).
+    	•	Structured Outline (flow of discussion).
+    	•	Key Discussion Points (what to cover).
+    	•	Timeframe & Duration (how long it should be).
+    	•	SEO-Optimized Metadata (tags, descriptions, and keywords).
+
+    8️⃣ Actionable Output in the Gradio App
+
+    ✔ Users receive structured insights in an easy-to-read format, including:
+    	•	Summaries & key takeaways from multiple videos.
+    	•	AI-generated content ideas tailored for content creators.
+    	•	SEO-enhanced suggestions for video optimization.
+    ✔ Speeds up research and content creation by eliminating manual analysis.
+        
 ---
 
 ## Project Structure
@@ -41,6 +91,8 @@ VidInsight-AI/\
 ├── YouTubeAgent.py           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Creates content ideas using Gemini AI\
 ├── main.py                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # CLI-based alternative to run the app\
 ├── requirements.txt          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Project dependencies\
+├── dbcone.py                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # storing embeddings in vector database
+├── embeddings.py             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # vectorizing corpus using sentence transformer
 ├── keys1.env                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Environment variables (API keys)\
 └── output/                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Folder for saved transcripts\
 &nbsp;&nbsp;&nbsp; └── <video_id>.txt     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Transcripts saved as text files\
@@ -54,6 +106,8 @@ VidInsight-AI/\
     	•	`transcribe_videos.py`: Audio transcription
     	•	`summary.py`: Content summarization
     	•	`YouTubeAgent.py`: Content idea generation
+        •	`dbcone.py`: storing embeddings in vector database
+        •	`embeddings.py`: vectorizing corpus using sentence transformer
 	3.	Configuration Files:
     	•	`config.py`: Settings and filters
     	•	`keys1.env`: API keys
@@ -67,9 +121,9 @@ VidInsight-AI/\
 
 1. Prerequisites\
 	•	Python 3.8 or higher\
-	•	FFmpeg installed on the system (for audio processing)
-	•	A YouTube Data API key (create one via Google Cloud Console)
-	•	A GEMINI API key 
+	•	FFmpeg installed on the system (for audio processing)\
+	•	A YouTube Data API key (create one via Google Cloud Console)\
+	•	A GEMINI API key \
 	•	A TAVILY API key 
 
 3. Installation
@@ -138,21 +192,6 @@ FILTER_CONFIG = {
 
 ---
 
-## Known Issues
-	1.	If no results are found or an error occurs during video fetching, the app displays an error message in JSON format.
-	2.	Ensure that valid topics are entered; overly broad or unrelated topics may not yield meaningful results.
-
----
-
-## Future Features        
-	1.	Multilingual Support (Future):
-    	•	Add support for transcription in other languages (e.g., Spanish, French).
-        
-	2.	Interactive Q&A (Future):
-    	•	Allow users to ask questions about analyzed video content.
-
----
-
 ## 🛠️ Technology Stack
 
 | Task  | Technology |
@@ -161,13 +200,37 @@ FILTER_CONFIG = {
 | Transcription | yt-dlp, OpenAI Whisper     |
 | Summarization  | Gemini AI, LangChain  |
 | Content Generation | Gemini AI, LangChain   |
-| Vectorizaton | ____  |
-| Vector Database | ____  |
-
+| Vectorizaton | SentenceTransformer('all-MiniLM-L6-v2')   |
+| Vector Database | Pinecone  |
 
 ---
+
+## Known Issues
+	1.	If no results are found or an error occurs during video fetching, the app displays an error message in JSON format.
+	2.	Ensure that valid topics are entered; overly broad or unrelated topics may not yield meaningful results.
+
+---
+
+## Future Features        
+	1.	Multilingual Support:
+    	•	Add support for transcription in other languages (e.g., Spanish, French).
+        
+	2.	Interactive Q&A:
+    	•	Allow users to ask questions about analyzed video content.
+
+    3.	Platform Specific Content Creation:
+        •	Allow users to specify platforms like Twitter, Youtube, Instagram etc. 
+
+    4.	Teaching Course Creation:
+        •	Educators can create teaching courses based on filtering appropriate contents
+
+    2.	Scientific Integration:
+        •	We can integrate API for research papers to get richer context for future steps
+
+---
+
 ## 📌 Contributors
-	•	Asif Khan – Developer and Project Lead
+	•	Asif Khan – Project Lead, Developer & UI Specialist
     •	Kade Thomas – Summarization Specialist
     •	Amit Gaikwad - Vector Database Specialist
     •	Simranpreet Saini – AI Agent Specialist

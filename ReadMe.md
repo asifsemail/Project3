@@ -97,6 +97,8 @@ VidInsight-AI/\
 └── output/                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Folder for saved transcripts\
 &nbsp;&nbsp;&nbsp; └── <video_id>.txt     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Transcripts saved as text files\
 
+**VidInsight-AI.pdf** : presentation slide
+
 ### Key Components:
 	1.	Interface Files:
     	•	`app.py`: Web interface using Gradio

@@ -117,7 +117,7 @@ VidInsight-AI/\
 
 ---
 
-## Setup Instructions (need to be completed)
+## Setup Instructions
 
 1. Prerequisites\
 	•	Python 3.8 or higher\
